@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مولد المفاتيح | License Key Generator</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e3a5f 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      color: #1e293b;
+    }
+    .container {
+      width: 100%;
+      max-width: 520px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 32px;
+    }
+    .header h1 {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .header p {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      padding: 24px;
+    }
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus { border-color: #3b82f6; }
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .type-btn {
+      padding: 10px;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #475569;
+    }
+    .type-btn:hover { background: #f8fafc; }
+    .type-btn.active.trial {
+      border-color: #f59e0b;
+      background: #fffbeb;
+      color: #b45309;
+    }
+    .type-btn.active.lifetime {
+      border-color: #3b82f6;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .result {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+      margin-top: 4px;
+      display: none;
+    }
+    .result.show { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .result-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .result-box .key {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #22c55e;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      word-break: break-all;
+    }
+    .copy-btn {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #f1f5f9;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .copy-btn:hover { background: #e2e8f0; }
+    .copied-msg { color: #22c55e; font-size: 12px; margin-top: 4px; }
+    .footer {
+      text-align: center;
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 16px;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 24px 0 12px;
+      padding-top: 20px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .section-title:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .verify-result {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+    }
+    .verify-result.show { display: block; animation: fadeIn 0.3s ease; }
+    .verify-result.valid { background: #f0fdf4; color: #15803d; }
+    .verify-result.invalid { background: #fef2f2; color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">🔑</div>
+      <h1>مولد المفاتيح</h1>
+      <p>أداة مستقلة لتوليد مفاتيح ترخيص نظام نقاط البيع</p>
+    </div>
+
+    <div class="card">
+      <!-- Generator Section -->
+      <div class="section-title">توليد مفتاح جديد</div>
+
+      <div class="field">
+        <label>🔒 بصمة الجهاز (Hardware Fingerprint)</label>
+        <input type="text" id="fingerprint" placeholder="أدخل بصمة جهاز العميل..." style="text-transform: uppercase;" />
+      </div>
+
+      <div class="field">
+        <label>📋 نوع الترخيص</label>
+        <div class="type-grid">
+          <button class="type-btn trial" data-type="trial" onclick="selectType('trial')">تجريبي 24 ساعة</button>
+          <button class="type-btn lifetime active" data-type="lifetime" onclick="selectType('lifetime')">مدى الحياة</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="generateBtn" onclick="generate()">🔑 توليد المفتاح</button>
+
+      <div class="result" id="result">
+        <label style="display:block; font-size:13px; color:#64748b; margin-bottom:6px; font-weight:500;">المفتاح المولّد</label>
+        <div class="result-box">
+          <div class="key" id="generatedKey"></div>
+          <button class="copy-btn" onclick="copyKey()" id="copyBtn">📋</button>
+        </div>
+        <div class="copied-msg" id="copiedMsg" style="display:none;">تم النسخ إلى الحافظة ✓</div>
+      </div>
+
+      <!-- Validator Section -->
+      <div class="section-title">التحقق من مفتاح</div>
+
+      <div class="field">
+        <label>🔍 المفتاح للتحقق</label>
+        <input type="text" id="verifyKey" placeholder="أدخل المفتاح للتحقق..." style="text-transform: uppercase;" />
+      </div>
+
+      <div class="field">
+        <label>🔒 بصمة الجهاز</label>
+        <input type="text" id="verifyFingerprint" placeholder="أدخل بصمة الجهاز..." style="text-transform: uppercase;" />
+      </div>
+
+      <button class="btn-primary" onclick="verifyKey()" style="background:#475569;">✓ تحقق من المفتاح</button>
+
+      <div class="verify-result" id="verifyResult"></div>
+    </div>
+
+    <p class="footer">هذه الأداة منفصلة تماماً عن نظام نقاط البيع</p>
+  </div>
+
+  <script>
+    // ── Hash function (must match the POS app exactly) ──
+    function hashString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = (hash << 5) - hash + char;
+        hash |= 0;
+      }
+      return Math.abs(hash).toString(36).toUpperCase().padStart(8, '0');
+    }
+
+    // ── License key generation ──
+    // Key format: TYPE-FINGERPRINT-CHECKSUM
+    function generateLicenseKey(fingerprint, type) {
+      const prefix = type === 'trial' ? 'T' : 'L';
+      const fp = fingerprint.replace(/[^A-Z0-9]/g, '').slice(0, 8);
+      const payload = prefix + fp;
+      const checksum = hashString(payload + 'POS_SECRET_2026').slice(0, 6);
+      return payload + '-' + checksum;
+    }
+
+    // ── License key validation ──
+    function validateLicenseKey(key, fingerprint) {
+      const clean = key.trim().toUpperCase();
+      const match = clean.match(/^([TL])([A-Z0-9]{8})-([A-Z0-9]{6})$/);
+      if (!match) return null;
+      const typeChar = match[1];
+      const fp = match[2];
+      const checksum = match[3];
+      const expectedFp = fingerprint.replace(/[^A-Z0-9]/g, '').slice(0, 8);
+      if (fp !== expectedFp) return null;
+      const payload = typeChar + fp;
+      const expectedChecksum = hashString(payload + 'POS_SECRET_2026').slice(0, 6);
+      if (checksum !== expectedChecksum) return null;
+      return typeChar === 'T' ? 'trial' : 'lifetime';
+    }
+
+    // ── UI Logic ──
+    let selectedType = 'lifetime';
+
+    function selectType(type) {
+      selectedType = type;
+      document.querySelectorAll('.type-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.type === type) btn.classList.add('active');
+      });
+    }
+
+    function generate() {
+      const fp = document.getElementById('fingerprint').value.toUpperCase().trim();
+      if (!fp || fp.length < 6) {
+        alert('الرجاء إدخال بصمة صحيحة (6 أحرف على الأقل)');
+        return;
+      }
+      const key = generateLicenseKey(fp, selectedType);
+      document.getElementById('generatedKey').textContent = key;
+      document.getElementById('result').classList.add('show');
+      document.getElementById('copiedMsg').style.display = 'none';
+    }
+
+    function copyKey() {
+      const key = document.getElementById('generatedKey').textContent;
+      navigator.clipboard.writeText(key).then(() => {
+        const msg = document.getElementById('copiedMsg');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 2000);
+      });
+    }
+
+    function verifyKey() {
+      const key = document.getElementById('verifyKey').value.trim();
+      const fp = document.getElementById('verifyFingerprint').value.trim();
+      const resultEl = document.getElementById('verifyResult');
+
+      if (!key || !fp) {
+        resultEl.textContent = 'الرجاء إدخال المفتاح والبصمة';
+        resultEl.className = 'verify-result show invalid';
+        return;
+      }
+
+      const result = validateLicenseKey(key, fp);
+      if (result === 'trial') {
+        resultEl.textContent = '✓ مفتاح صحيح — ترخيص تجريبي (24 ساعة)';
+        resultEl.className = 'verify-result show valid';
+      } else if (result === 'lifetime') {
+        resultEl.textContent = '✓ مفتاح صحيح — ترخيص مدى الحياة';
+        resultEl.className = 'verify-result show valid';
+      } else {
+        resultEl.textContent = '✗ مفتاح غير صحيح أو لا يطابق البصمة';
+        resultEl.className = 'verify-result show invalid';
+      }
+    }
+  </script>
+</body>
+</html>
